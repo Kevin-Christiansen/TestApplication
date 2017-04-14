@@ -155,6 +155,7 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
+		String sql = "INSERT INTO teams values (?,?,?,?)";
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -162,7 +163,8 @@ public class TestApplication {
 		                try {
 		               
 		    				
-		                	PreparedStatement addBlankTeam = connectAndReturnConnection().prepareStatement("INSERT INTO teams values (?,?,?,?)");
+		                	PreparedStatement addBlankTeam = null;
+		                	addBlankTeam = connectAndReturnConnection().prepareStatement(sql);
 		    				
 		    				addBlankTeam.setInt(1, 0);
 		    				addBlankTeam.setString(2, "No Name");
