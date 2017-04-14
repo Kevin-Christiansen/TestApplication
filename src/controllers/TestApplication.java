@@ -156,23 +156,23 @@ public class TestApplication {
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
 		String sql = "INSERT INTO teams values (?,?,?,?)";
+		
+		public void createPreparedStatement() throws ClassNotFoundException, SQLException{
+			PreparedStatement addBlankTeam = null;
+        	addBlankTeam = connectAndReturnConnection().prepareStatement(sql);
+			addBlankTeam.setInt(1, 0);
+			addBlankTeam.setString(2, "No Name");
+			addBlankTeam.setInt(3, 0);
+			addBlankTeam.setInt(4, 0);
+			addBlankTeam.executeUpdate();
+		}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		               
-		    				
-		                	PreparedStatement addBlankTeam = null;
-		                	addBlankTeam = connectAndReturnConnection().prepareStatement(sql);
-		    				
-		    				addBlankTeam.setInt(1, 0);
-		    				addBlankTeam.setString(2, "No Name");
-		    				addBlankTeam.setInt(3, 0);
-		    				addBlankTeam.setInt(4, 0);
-		    				addBlankTeam.executeUpdate();
-
-
+		           
+		                	createPreparedStatement();
 		        	
 						} catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
@@ -256,18 +256,22 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class StoredProcedure extends JPanel implements ActionListener{
-		String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
+		
+		public void useStoredProcedure() throws ClassNotFoundException, SQLException{
+			String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
 			String sql1 = "commit";
-		public void actionPerformed(ActionEvent e) {
+			Statement x = connectAndReturnStatement();
+				x.executeQuery(sql);
 				
+				x.executeQuery(sql1);
+		}
+		public void actionPerformed(ActionEvent e) {
+			
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		            	 try {
-							
-			 				Statement x = connectAndReturnStatement();
-			 				x.executeQuery(sql);
+		            		 useStoredProcedure();
 			 				
-			 				x.executeQuery(sql1);
 		            	 }catch (ClassNotFoundException | SQLException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
