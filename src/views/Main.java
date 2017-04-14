@@ -61,7 +61,7 @@ public class Main {
 		 select_teams.setSize(400,400);
 		 frame_select_teams.setLocation(910, 100);
 		 select_teams.setVisible(true);
-		 select_teams.setText("Select * from Teams");
+		 select_teams.setText("Select * from TEAMS");
 		 frame_select_teams.add(select_teams);
 		 frame_select_teams.setVisible(true);
 		 select_teams.addActionListener(new SelectTeams());
