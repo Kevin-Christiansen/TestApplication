@@ -130,7 +130,7 @@ public class TestApplication {
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		                	JFrame frame = new JFrame("Select * from Teams");
+		                	JFrame frame = new JFrame("Select * from TEAMS");
 		     //   	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        	 
 		        	        //Create and set up the content pane.
@@ -155,7 +155,7 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
-		String sql = "INSERT INTO teams values (?,?,?,?)";
+		String sql = "INSERT INTO TEAMS values (?,?,?,?)";
 		
 		public void createPreparedStatement() throws ClassNotFoundException, SQLException{
 			PreparedStatement addBlankTeam = null;
