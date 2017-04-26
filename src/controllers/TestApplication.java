@@ -18,11 +18,9 @@ public class TestApplication {
 		
 		public SelectPlayers() throws ClassNotFoundException, SQLException {
 	        super(new GridLayout(1,0));
-			String sql = "SELECT column_name from all_tab_columns"
-					+ " where table_name = 'PLAYERS'";
+			String sql = "SELECT column_name from all_tab_columns where table_name = 'PLAYERS'";
 			Statement s = connectAndReturnStatement();
-			ResultSet rs = null;
-			rs = s.executeQuery(sql);
+			ResultSet rs = s.executeQuery(sql);
 			ArrayList<String> columnNames = new ArrayList<String>();
 			while(rs.next()){
 					columnNames.add(rs.getNString("COLUMN_NAME"));
@@ -31,8 +29,7 @@ public class TestApplication {
 			 sql = "select count(*) from PLAYERS";
 			 rs = s.executeQuery(sql);
 			 rs.next();
-			 String numRows = null;
-			 numRows = rs.getNString("COUNT(*)");
+			 String numRows = rs.getNString("COUNT(*)");
 			 int numR = Integer.parseInt(numRows); 
 			 sql = "SELECT * from PLAYERS";
 			 rs = s.executeQuery(sql);
@@ -90,8 +87,7 @@ public class TestApplication {
 	        super(new GridLayout(1,0));
 			String sql = "SELECT column_name from all_tab_columns where table_name = 'TEAMS'";
 			Statement a = connectAndReturnStatement();
-			ResultSet rs = null;
-			rs = a.executeQuery("SELECT column_name from all_tab_columns where table_name = 'TEAMS'");
+			ResultSet rs = a.executeQuery(sql);
 			ArrayList<String> columnNames = new ArrayList<String>();
 			while(rs.next()){
 					columnNames.add(rs.getNString("COLUMN_NAME"));
@@ -100,8 +96,7 @@ public class TestApplication {
 			 sql = "select count(*) from TEAMS";
 			 rs = a.executeQuery(sql);
 			 rs.next();
-			 String numRows = null;
-			 numRows = rs.getNString("COUNT(*)");
+			 String numRows = rs.getNString("COUNT(*)");
 			 int numR = Integer.parseInt(numRows); 
 			 sql = "SELECT * from TEAMS";
 			 rs = a.executeQuery(sql);
@@ -130,7 +125,7 @@ public class TestApplication {
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		                	JFrame frame = new JFrame("Select * from TEAMS");
+		                	JFrame frame = new JFrame("Select * from Teams");
 		     //   	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        	 
 		        	        //Create and set up the content pane.
@@ -155,24 +150,23 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
-		String sql = "INSERT INTO TEAMS values (?,?,?,?)";
-		
-		public void createPreparedStatement() throws ClassNotFoundException, SQLException{
-			PreparedStatement addBlankTeam = null;
-        	addBlankTeam = connectAndReturnConnection().prepareStatement(sql);
-			addBlankTeam.setInt(1, 0);
-			addBlankTeam.setString(2, "No Name");
-			addBlankTeam.setInt(3, 0);
-			addBlankTeam.setInt(4, 0);
-			addBlankTeam.executeUpdate();
-		}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		           
-		                	createPreparedStatement();
+		               
+		    				
+		                	PreparedStatement addBlankTeam = null;
+		                	addBlankTeam = connectAndReturnConnection().prepareStatement("INSERT INTO teams values (?,?,?,?)");
+		    				
+		    				addBlankTeam.setInt(1, 0);
+		    				addBlankTeam.setString(2, "No Name");
+		    				addBlankTeam.setInt(3, 0);
+		    				addBlankTeam.setInt(4, 0);
+		    				addBlankTeam.executeUpdate();
+
+
 		        	
 						} catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
@@ -256,22 +250,18 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class StoredProcedure extends JPanel implements ActionListener{
-		
-		public void useStoredProcedure() throws ClassNotFoundException, SQLException{
-			String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
+		String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
 			String sql1 = "commit";
-			Statement x = connectAndReturnStatement();
-				x.executeQuery(sql);
-				
-				x.executeQuery(sql1);
-		}
 		public void actionPerformed(ActionEvent e) {
-			
+				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		            	 try {
-		            		 useStoredProcedure();
+							
+			 				Statement x = connectAndReturnStatement();
+			 				x.executeQuery(sql);
 			 				
+			 				x.executeQuery(sql1);
 		            	 }catch (ClassNotFoundException | SQLException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -312,30 +302,7 @@ public class TestApplication {
 		}
 		
 	}
-	
-	@SuppressWarnings("serial")
-	public static class ViewsFunction extends JPanel implements ActionListener{
-		String sql = "CREATE VIEW team_view AS SELECT TEAM_NAME FROM TEAMS WHERE WINS = 0";
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			
-			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		                try {
-		                	Statement y = connectAndReturnStatement();
-		     				y.executeQuery(sql);	
-		     				
-		        	        
-						} catch (ClassNotFoundException | SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-		            }
-		        });
-			
-		}
-		
-	}
+
 	
 	public static Statement connectAndReturnStatement() throws ClassNotFoundException, SQLException{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
