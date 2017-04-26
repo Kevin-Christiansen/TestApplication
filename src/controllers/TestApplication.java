@@ -150,21 +150,24 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
+		public void usePreparedStatement() throws ClassNotFoundException, SQLException{
+			PreparedStatement addBlankTeam = null;
+        	addBlankTeam = connectAndReturnConnection().prepareStatement("INSERT INTO teams values (?,?,?,?)");
+			
+			addBlankTeam.setInt(1, 0);
+			addBlankTeam.setString(2, "No Name");
+			addBlankTeam.setInt(3, 0);
+			addBlankTeam.setInt(4, 0);
+			addBlankTeam.executeUpdate();
+		}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
 		               
-		    				
-		                	PreparedStatement addBlankTeam = null;
-		                	addBlankTeam = connectAndReturnConnection().prepareStatement("INSERT INTO teams values (?,?,?,?)");
-		    				
-		    				addBlankTeam.setInt(1, 0);
-		    				addBlankTeam.setString(2, "No Name");
-		    				addBlankTeam.setInt(3, 0);
-		    				addBlankTeam.setInt(4, 0);
-		    				addBlankTeam.executeUpdate();
+		                	usePreparedStatement();
+		                	
 
 
 		        	
@@ -325,4 +328,3 @@ public class TestApplication {
 
 
 	
-
