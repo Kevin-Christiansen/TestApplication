@@ -186,15 +186,20 @@ public class TestApplication {
 	@SuppressWarnings("serial")
 	public static class DeleteTeam extends JPanel implements ActionListener{
 
-		String sql = "DELETE FROM TEAMS WHERE TEAM_NAME = 'No Name'";
+		
+		public void deleteStatement() throws ClassNotFoundException, SQLException{
+			String sql = "DELETE FROM TEAMS WHERE TEAM_NAME = 'No Name'";
+			connectAndReturnStatement().executeQuery(sql);		
+		}
+		
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
 	
+		                	deleteStatement();
 		     				
-		     				connectAndReturnStatement().executeQuery(sql);		
 		        	        
 						} catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
@@ -210,15 +215,17 @@ public class TestApplication {
 	
 	@SuppressWarnings("serial")
 	public static class UpdateNoNameTeam extends JPanel implements ActionListener{
-		String sql = "UPDATE TEAMS SET TEAM_NAME = 'Updated Team' WHERE TEAM_NAME = 'No Name'";
+		
+		public void updateStatement() throws ClassNotFoundException, SQLException{
+			String sql = "UPDATE TEAMS SET TEAM_NAME = 'Updated Team' WHERE TEAM_NAME = 'No Name'";
+			connectAndReturnStatement().executeQuery(sql);
+		}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		                	
-		     				
-		     				connectAndReturnStatement().executeQuery(sql);	
+		                	updateStatement();
 		        	        
 						} catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
@@ -232,14 +239,18 @@ public class TestApplication {
 	
 	@SuppressWarnings("serial")
 	public static class InsertPlayer extends JPanel implements ActionListener{
-		String sql = "INSERT INTO PLAYERS (TEAM_ID, WIN, LOSS, FAVORITE_CHAMPION, PLAYER_NAME) VALUES ('1', '137', '0', 'Renekton', 'Inserted Player')";
 		
+		public void InsertStatement() throws ClassNotFoundException, SQLException{
+			String sql = "INSERT INTO PLAYERS (TEAM_ID, WIN, LOSS, FAVORITE_CHAMPION, PLAYER_NAME) VALUES ('1', '137', '0', 'Renekton', 'Inserted Player')";
+			connectAndReturnStatement().executeQuery(sql);
+		}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		            	try {
-							connectAndReturnStatement().executeQuery(sql);
+		            		InsertStatement();
+							
 		            	}catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -254,18 +265,21 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class StoredProcedure extends JPanel implements ActionListener{
-		String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
-			String sql1 = "commit";
+	
+			public void storedStatement() throws ClassNotFoundException, SQLException{
+				String sql = "CALL ADDPLAYER('0','0','0','STORED CHAMPION','STORED PROCEDURE')";
+				
+				Statement x = connectAndReturnStatement();
+ 				x.executeQuery(sql);
+ 				x.executeQuery("commit");
+			}
 		public void actionPerformed(ActionEvent e) {
 				
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		            	 try {
 							
-			 				Statement x = connectAndReturnStatement();
-			 				x.executeQuery(sql);
-			 				
-			 				x.executeQuery(sql1);
+		            		 storedStatement();
 		            	 }catch (ClassNotFoundException | SQLException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -282,19 +296,22 @@ public class TestApplication {
 
 	@SuppressWarnings("serial")
 	public static class ReplaceFunction extends JPanel implements ActionListener{
-		String sql = "UPDATE players SET PLAYER_NAME = REPLACE (PLAYERS.PLAYER_NAME, 'STORED PROCEDURE', 'REPLACED')";
-		String sql1 = "commit";
+		
+		public void replace() throws ClassNotFoundException, SQLException{
+			String sql = "UPDATE players SET PLAYER_NAME = REPLACE (PLAYERS.PLAYER_NAME, 'STORED PROCEDURE', 'REPLACED')";
+			String sql1 = "commit";
+			Statement y = connectAndReturnStatement();
+			y.executeQuery(sql);			
+			y.executeQuery(sql1);
+		}
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			
 			  javax.swing.SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		                	Statement y = connectAndReturnStatement();
-		     				y.executeQuery(sql);	
-		     				
-		     				y.executeQuery(sql1);
-		     				
+		                	
+		                	replace();
 		        	        
 						} catch (ClassNotFoundException | SQLException e) {
 							// TODO Auto-generated catch block
@@ -329,3 +346,4 @@ public class TestApplication {
 
 
 	
+
