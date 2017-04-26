@@ -151,7 +151,7 @@ public class TestApplication {
 	@SuppressWarnings("serial")
 	public static class PreparedState extends JPanel implements ActionListener {
 		public void usePreparedStatement() throws ClassNotFoundException, SQLException{
-			String g = "INSERT INTO teams values (?,?,?,?)";
+			String g = "INSERT INTO TEAMS values (?,?,?,?)";
 			PreparedStatement addBlankTeam = null;
         	addBlankTeam = connectAndReturnConnection().prepareStatement(g);
 			
